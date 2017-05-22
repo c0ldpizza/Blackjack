@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="862fda3cdfb54235832818b5755bc8af" Name="Diagram1">
+        <EntityTypeShape EntityType="BlackjackDBModel.Choice" Width="1.5" PointX="7.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackjackDBModel.Company" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackjackDBModel.Excursion" Width="1.5" PointX="5.875" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackjackDBModel.Leader" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackjackDBModel.Member" Width="1.5" PointX="3.875" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="BlackjackDBModel.FK_Choice_Excursion" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackjackDBModel.FK_Leader_Company1" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackjackDBModel.FK_Excursion_Leader" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackjackDBModel.FK_Member_Excursion" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

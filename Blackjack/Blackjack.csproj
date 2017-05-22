@@ -81,6 +81,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -203,8 +205,38 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BlackjackDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlackjackDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BlackjackDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlackjackDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BlackjackDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlackjackDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Choice.cs">
+      <DependentUpon>BlackjackDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Company.cs">
+      <DependentUpon>BlackjackDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Excursion.cs">
+      <DependentUpon>BlackjackDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Leader.cs">
+      <DependentUpon>BlackjackDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Member.cs">
+      <DependentUpon>BlackjackDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -215,11 +247,29 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\BlackjackDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BlackjackDB.edmx</DependentUpon>
+      <LastGenOutput>BlackjackDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\BlackjackDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BlackjackDB.edmx</DependentUpon>
+      <LastGenOutput>BlackjackDB.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EntityDeploy Include="Models\BlackjackDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BlackjackDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BlackjackDB.edmx.diagram">
+      <DependentUpon>BlackjackDB.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\webappJKP - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -281,6 +331,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
