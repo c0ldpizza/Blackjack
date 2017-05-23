@@ -8,8 +8,12 @@
 <table>
     @foreach (var element in ViewBag.Message)
     {
-        <tr><td>@element["name"]</td></tr>
+        <tr>
+            <td>@element.Name</td>
+            <td>@element.WebURI</td>
+            <td>@element.ImageURL</td>
+            @*<td>@element["categories"][1]["name"]</td>
+            <td>@element["images"][0]["url"]</td>*@
+        </tr>
     }
-
-
 </table>

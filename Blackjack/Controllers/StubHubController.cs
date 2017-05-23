@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,26 +18,30 @@ namespace Blackjack.Controllers
         // GET: StubHub
         public ActionResult Index()
         {
-
             return View();
         }
 
         public ActionResult StubHubSearchResult()
         {
-            ViewBag.Message = GetStubHubData();
+            DateTime date = DateTime.Today;
+            string dateString = "2017-06-29";// T19:30:00-0700";
+
+            ViewBag.Message = GetStubHubData("New", dateString);
+
             return View();
         }
 
-        public ActionResult GetStubHubData()
+        public ActionResult GetStubHubData(string city, string date)
         {
+            string queryString = "https://api.stubhub.com/search/catalog/events/v3?status=active&start=0&rows=20&city=" + city
+                + "&eventDateLocal=" + date;
 
-            HttpWebRequest request = WebRequest.CreateHttp("https://api.stubhub.com/search/catalog/events/v3?name=Gold");
+            HttpWebRequest request = WebRequest.CreateHttp(queryString);
 
             request.UserAgent = @"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0";
 
             string bearerToken = GetAcccessToken();
 
-            //request.Headers.Add("Authorization", $"Bearer {bearerToken}"); //44d39468-9f0c-31bd-b783-210d1261ade2
             request.Headers.Add("Authorization", "Bearer " + bearerToken);
             request.ContentType = "application/json";
             request.Method = "GET";
@@ -48,14 +53,34 @@ namespace Blackjack.Controllers
 
             string data = rd.ReadToEnd(); //raw data
 
-            JObject StubHubData = JObject.Parse(data);
+            //JObject StubHubData = JObject.Parse(data);
 
-            //need to return results in a meaningful format
+            ViewBag.Message = createEventList(data);
 
-            ViewBag.Message = StubHubData["events"];
+            //ViewBag.Message = StubHubData["events"];
 
             return View("StubHubSearchResult");
 
+        }
+
+        public static IList<Event> createEventList(string data)
+        {
+            JObject StubHubData = JObject.Parse(data);
+
+            // get JSON result objects into a list
+            IList<JToken> eventFields = StubHubData["events"].Children().ToList();
+
+            // serialize JSON results into .NET objects
+            IList<Event> searchResults = new List<Event>();
+
+            //create Event objects with fields that match JTokens
+            foreach (JToken result in eventFields)
+            {
+                Event searchResult = JsonConvert.DeserializeObject<Event>(result.ToString());  //result["categories"][1]["name"]
+                searchResults.Add(searchResult);
+            }
+
+            return searchResults;
         }
 
         public static string GetAcccessToken()
