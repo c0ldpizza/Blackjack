@@ -5,4 +5,11 @@
 
 <h2>StubHubSearchResult</h2>
 
-@ViewBag.Message
+<table>
+    @foreach (var element in ViewBag.Message)
+    {
+        <tr><td>@element["name"]</td></tr>
+    }
+
+
+</table>

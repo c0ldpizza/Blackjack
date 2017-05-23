@@ -34,10 +34,10 @@ namespace Blackjack.Controllers
 
             request.UserAgent = @"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0";
 
-            //string bearerToken = GetAcccessToken();
+            string bearerToken = GetAcccessToken();
 
             //request.Headers.Add("Authorization", $"Bearer {bearerToken}"); //44d39468-9f0c-31bd-b783-210d1261ade2
-            request.Headers.Add("Authorization", "Bearer 44d39468-9f0c-31bd-b783-210d1261ade2");
+            request.Headers.Add("Authorization", "Bearer " + bearerToken);
             request.ContentType = "application/json";
             request.Method = "GET";
 
@@ -52,7 +52,7 @@ namespace Blackjack.Controllers
 
             //need to return results in a meaningful format
 
-            ViewBag.Message = StubHubData.ToString();
+            ViewBag.Message = StubHubData["events"];
 
             return View("StubHubSearchResult");
 
