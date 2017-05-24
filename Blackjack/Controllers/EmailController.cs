@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,9 +19,18 @@ namespace Blackjack.Controllers
 
         public ActionResult SendEmail()
         {
+            ExecuteTest().Wait();
+
+            return View("MemberResponse");
+        }
+
+        static  void Execute()
+        {
+            var apiKey = Environment.GetEnvironmentVariable("APPSETTING_SENDGRID_APIKEY");
+            var client = new SendGridClient(apiKey);
             SendGridMessage msg = new SendGridMessage();
 
-            msg.SetFrom(new EmailAddress("dx@example.com", "SendGrid DX Team"));
+            msg.SetFrom(new EmailAddress("lambrechtca@gmail.com", "BlackJack Team"));
 
             List<EmailAddress> recipients = new List<EmailAddress>
             {
@@ -37,7 +47,37 @@ namespace Blackjack.Controllers
             msg.AddContent(MimeType.Text, "Hello World plain text!");
             msg.AddContent(MimeType.Html, "<p>Hello World!</p>");
 
-            return View("MemberResponse");
+            client.SendEmailAsync(msg);
+        }
+
+        static async Task ExecuteV3()
+        {
+            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("lambrechtca@gmail.com", "Charlie");
+            var subject = "Sending with SendGrid is Fun";
+            var to = new EmailAddress("lambrechtca@gmail.com", "Example User");
+            var plainTextContent = "and easy to do anywhere, even with C#";
+            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
+        }
+
+         // using SendGrid's C# Library
+         // https://github.com/sendgrid/sendgrid-csharp
+
+
+            static async Task ExecuteTest()
+            {
+                var apiKey = Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
+                var client = new SendGridClient(apiKey);
+                var from = new EmailAddress("test@example.com", "Example User");
+                var subject = "Sending with SendGrid is Fun";
+                var to = new EmailAddress("test@example.com", "Example User");
+                var plainTextContent = "and easy to do anywhere, even with C#";
+                var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+                var response = await client.SendEmailAsync(msg);
+            }
         }
     }
-}

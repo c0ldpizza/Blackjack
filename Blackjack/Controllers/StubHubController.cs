@@ -51,7 +51,7 @@ namespace Blackjack.Controllers
 
             StreamReader rd = new StreamReader(response.GetResponseStream());
 
-            string data = rd.ReadToEnd(); //raw data
+            string data = rd.ReadToEnd();
 
             ViewBag.Message = createEventList(data);
 
