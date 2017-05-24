@@ -48,16 +48,11 @@ namespace Blackjack.Controllers
 
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            //access data within response
             StreamReader rd = new StreamReader(response.GetResponseStream());
 
             string data = rd.ReadToEnd(); //raw data
 
-            //JObject StubHubData = JObject.Parse(data);
-
             ViewBag.Message = createEventList(data);
-
-            //ViewBag.Message = StubHubData["events"];
 
             return View("StubHubSearchResult");
 
@@ -69,6 +64,8 @@ namespace Blackjack.Controllers
 
             // get JSON result objects into a list
             IList<JToken> eventFields = StubHubData["events"].Children().ToList();
+
+            //eventFields.Add(StubHubData["events"][0]["categories"][1]["name"]);   //attempt to add category from JSON data
 
             // serialize JSON results into .NET objects
             IList<Event> searchResults = new List<Event>();
