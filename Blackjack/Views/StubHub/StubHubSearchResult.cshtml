@@ -5,4 +5,17 @@
 
 <h2>StubHubSearchResult</h2>
 
-@ViewBag.Message
+<table>
+    @foreach (var element in ViewBag.Message)
+    {
+        <tr>
+            <td>@element.Name</td>
+            <td>@element.WebURI</td>
+            <td>@element.ImageURL</td>
+            <td>@element.Id</td>
+            <td>@element.Category</td>
+            @*<td>@element["categories"][1]["name"]</td>
+            <td>@element["images"][0]["url"]</td>*@
+        </tr>
+    }
+</table>

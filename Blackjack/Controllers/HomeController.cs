@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Blackjack.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Blackjack.Controllers
 {
@@ -10,6 +12,12 @@ namespace Blackjack.Controllers
     {
         public ActionResult Index()
         {
+            ApplicationDbContext USerInfo = new ApplicationDbContext();
+
+            ApplicationUser info =USerInfo.Users.Find(User.Identity.GetUserId());
+
+
+            
             return View();
         }
 
