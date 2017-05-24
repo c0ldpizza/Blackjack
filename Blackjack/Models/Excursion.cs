@@ -24,7 +24,7 @@ namespace Blackjack.Models
         public string Location { get; set; }
         public System.DateTime Date { get; set; }
         public decimal Budget { get; set; }
-        public int LeadID { get; set; }
+        public string LeadID { get; set; }
         public int ExcursionID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

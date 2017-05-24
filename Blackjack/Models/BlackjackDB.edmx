@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BlackjackDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BlackjackDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Choice">
           <Key>
             <PropertyRef Name="ChoiceID" />
@@ -18,13 +18,6 @@
           <Property Name="ExcursionID" Type="int" Nullable="false" />
           <Property Name="ChoiceName" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="Company">
-          <Key>
-            <PropertyRef Name="CompanyID" />
-          </Key>
-          <Property Name="CompanyName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="CompanyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-        </EntityType>
         <EntityType Name="Excursion">
           <Key>
             <PropertyRef Name="ExcursionID" />
@@ -32,29 +25,44 @@
           <Property Name="Location" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="Budget" Type="decimal" Precision="7" Scale="2" Nullable="false" />
-          <Property Name="LeadID" Type="int" Nullable="false" />
+          <Property Name="LeadID" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ExcursionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Excursion-Member">
+          <Key>
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="ExcursionID" />
+          </Key>
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ExcursionID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Leader">
           <Key>
-            <PropertyRef Name="LeadID" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="PhoneNumber" Type="char" MaxLength="10" />
-          <Property Name="Password" Type="varchar(max)" Nullable="false" />
-          <Property Name="CompanyID" Type="int" Nullable="false" />
-          <Property Name="LeadID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" />
+          <Property Name="LastName" Type="nvarchar(max)" />
+          <Property Name="Company" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="Email" />
           </Key>
-          <Property Name="FirstName" Type="nchar" MaxLength="10" />
-          <Property Name="LastName" Type="nchar" MaxLength="10" />
-          <Property Name="Email" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="ExcursionID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <Association Name="FK_Choice_Excursion">
           <End Role="Excursion" Type="Self.Excursion" Multiplicity="1" />
@@ -68,132 +76,147 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Excursion_Leader">
+        <Association Name="FK_Excursion_AspNetUsers">
           <End Role="Leader" Type="Self.Leader" Multiplicity="1" />
           <End Role="Excursion" Type="Self.Excursion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Leader">
-              <PropertyRef Name="LeadID" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Excursion">
               <PropertyRef Name="LeadID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Leader_Company1">
-          <End Role="Company" Type="Self.Company" Multiplicity="1" />
-          <End Role="Leader" Type="Self.Leader" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyID" />
-            </Principal>
-            <Dependent Role="Leader">
-              <PropertyRef Name="CompanyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Member_Excursion">
+        <Association Name="FK_Excursion-Member_Excursion">
           <End Role="Excursion" Type="Self.Excursion" Multiplicity="1" />
-          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <End Role="Excursion-Member" Type="Self.Excursion-Member" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Excursion">
               <PropertyRef Name="ExcursionID" />
             </Principal>
-            <Dependent Role="Member">
+            <Dependent Role="Excursion-Member">
               <PropertyRef Name="ExcursionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Excursion-Member_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Excursion-Member" Type="Self.Excursion-Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Email" />
+            </Principal>
+            <Dependent Role="Excursion-Member">
+              <PropertyRef Name="Email" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="BlackjackDBModelStoreContainer">
           <EntitySet Name="Choice" EntityType="Self.Choice" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Excursion" EntityType="Self.Excursion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Excursion-Member" EntityType="Self.Excursion-Member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leader" EntityType="Self.Leader" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Choice_Excursion" Association="Self.FK_Choice_Excursion">
             <End Role="Excursion" EntitySet="Excursion" />
             <End Role="Choice" EntitySet="Choice" />
           </AssociationSet>
-          <AssociationSet Name="FK_Excursion_Leader" Association="Self.FK_Excursion_Leader">
+          <AssociationSet Name="FK_Excursion_AspNetUsers" Association="Self.FK_Excursion_AspNetUsers">
             <End Role="Leader" EntitySet="Leader" />
             <End Role="Excursion" EntitySet="Excursion" />
           </AssociationSet>
-          <AssociationSet Name="FK_Leader_Company1" Association="Self.FK_Leader_Company1">
-            <End Role="Company" EntitySet="Company" />
-            <End Role="Leader" EntitySet="Leader" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Member_Excursion" Association="Self.FK_Member_Excursion">
+          <AssociationSet Name="FK_Excursion-Member_Excursion" Association="Self.FK_Excursion-Member_Excursion">
             <End Role="Excursion" EntitySet="Excursion" />
+            <End Role="Excursion-Member" EntitySet="Excursion-Member" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Excursion-Member_Member" Association="Self.FK_Excursion-Member_Member">
             <End Role="Member" EntitySet="Member" />
+            <End Role="Excursion-Member" EntitySet="Excursion-Member" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BlackjackDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BlackjackDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Choices" EntityType="BlackjackDBModel.Choice" />
+          <EntitySet Name="Excursions" EntityType="BlackjackDBModel.Excursion" />
+          <EntitySet Name="Leaders" EntityType="BlackjackDBModel.Leader" />
+          <EntitySet Name="Members" EntityType="BlackjackDBModel.Member" />
+          <AssociationSet Name="FK_Choice_Excursion" Association="BlackjackDBModel.FK_Choice_Excursion">
+            <End Role="Excursion" EntitySet="Excursions" />
+            <End Role="Choice" EntitySet="Choices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Excursion_AspNetUsers" Association="BlackjackDBModel.FK_Excursion_AspNetUsers">
+            <End Role="Leader" EntitySet="Leaders" />
+            <End Role="Excursion" EntitySet="Excursions" />
+          </AssociationSet>
+          <AssociationSet Name="Excursion_Member" Association="BlackjackDBModel.Excursion_Member">
+            <End Role="Excursion" EntitySet="Excursions" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Choice">
           <Key>
             <PropertyRef Name="ChoiceID" />
             <PropertyRef Name="ExcursionID" />
           </Key>
-          <Property Name="Genre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Genre" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="IsFinal" Type="Boolean" Nullable="false" />
-          <Property Name="ChoiceID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ChoiceID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="ExcursionID" Type="Int32" Nullable="false" />
-          <Property Name="ChoiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Excursion" Relationship="Self.FK_Choice_Excursion" FromRole="Choice" ToRole="Excursion" />
-        </EntityType>
-        <EntityType Name="Company">
-          <Key>
-            <PropertyRef Name="CompanyID" />
-          </Key>
-          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Leaders" Relationship="Self.FK_Leader_Company1" FromRole="Company" ToRole="Leader" />
+          <Property Name="ChoiceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Excursion" Relationship="BlackjackDBModel.FK_Choice_Excursion" FromRole="Choice" ToRole="Excursion" />
         </EntityType>
         <EntityType Name="Excursion">
           <Key>
             <PropertyRef Name="ExcursionID" />
           </Key>
-          <Property Name="Location" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Location" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Budget" Type="Decimal" Precision="7" Scale="2" Nullable="false" />
-          <Property Name="LeadID" Type="Int32" Nullable="false" />
+          <Property Name="Budget" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="LeadID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ExcursionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Choices" Relationship="Self.FK_Choice_Excursion" FromRole="Excursion" ToRole="Choice" />
-          <NavigationProperty Name="Leader" Relationship="Self.FK_Excursion_Leader" FromRole="Excursion" ToRole="Leader" />
-          <NavigationProperty Name="Members" Relationship="Self.FK_Member_Excursion" FromRole="Excursion" ToRole="Member" />
+          <NavigationProperty Name="Choices" Relationship="BlackjackDBModel.FK_Choice_Excursion" FromRole="Excursion" ToRole="Choice" />
+          <NavigationProperty Name="Leader" Relationship="BlackjackDBModel.FK_Excursion_AspNetUsers" FromRole="Excursion" ToRole="Leader" />
+          <NavigationProperty Name="Members" Relationship="BlackjackDBModel.Excursion_Member" FromRole="Excursion" ToRole="Member" />
         </EntityType>
         <EntityType Name="Leader">
           <Key>
-            <PropertyRef Name="LeadID" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CompanyID" Type="Int32" Nullable="false" />
-          <Property Name="LeadID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Company" Relationship="Self.FK_Leader_Company1" FromRole="Leader" ToRole="Company" />
-          <NavigationProperty Name="Excursions" Relationship="Self.FK_Excursion_Leader" FromRole="Leader" ToRole="Excursion" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Company" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Excursions" Relationship="BlackjackDBModel.FK_Excursion_AspNetUsers" FromRole="Leader" ToRole="Excursion" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="Email" />
           </Key>
-          <Property Name="FirstName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="ExcursionID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Excursion" Relationship="Self.FK_Member_Excursion" FromRole="Member" ToRole="Excursion" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Excursions" Relationship="BlackjackDBModel.Excursion_Member" FromRole="Member" ToRole="Excursion" />
         </EntityType>
         <Association Name="FK_Choice_Excursion">
-          <End Role="Excursion" Type="Self.Excursion" Multiplicity="1" />
-          <End Role="Choice" Type="Self.Choice" Multiplicity="*" />
+          <End Type="BlackjackDBModel.Excursion" Role="Excursion" Multiplicity="1" />
+          <End Type="BlackjackDBModel.Choice" Role="Choice" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Excursion">
               <PropertyRef Name="ExcursionID" />
@@ -203,65 +226,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Leader_Company1">
-          <End Role="Company" Type="Self.Company" Multiplicity="1" />
-          <End Role="Leader" Type="Self.Leader" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyID" />
-            </Principal>
-            <Dependent Role="Leader">
-              <PropertyRef Name="CompanyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Excursion_Leader">
-          <End Role="Leader" Type="Self.Leader" Multiplicity="1" />
-          <End Role="Excursion" Type="Self.Excursion" Multiplicity="*" />
+        <Association Name="FK_Excursion_AspNetUsers">
+          <End Type="BlackjackDBModel.Leader" Role="Leader" Multiplicity="1" />
+          <End Type="BlackjackDBModel.Excursion" Role="Excursion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Leader">
-              <PropertyRef Name="LeadID" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Excursion">
               <PropertyRef Name="LeadID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Member_Excursion">
-          <End Role="Excursion" Type="Self.Excursion" Multiplicity="1" />
-          <End Role="Member" Type="Self.Member" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Excursion">
-              <PropertyRef Name="ExcursionID" />
-            </Principal>
-            <Dependent Role="Member">
-              <PropertyRef Name="ExcursionID" />
-            </Dependent>
-          </ReferentialConstraint>
+        <Association Name="Excursion_Member">
+          <End Type="BlackjackDBModel.Excursion" Role="Excursion" Multiplicity="*" />
+          <End Type="BlackjackDBModel.Member" Role="Member" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="BlackjackDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Choices" EntityType="Self.Choice" />
-          <EntitySet Name="Companies" EntityType="Self.Company" />
-          <EntitySet Name="Excursions" EntityType="Self.Excursion" />
-          <EntitySet Name="Leaders" EntityType="Self.Leader" />
-          <EntitySet Name="Members" EntityType="Self.Member" />
-          <AssociationSet Name="FK_Choice_Excursion" Association="Self.FK_Choice_Excursion">
-            <End Role="Excursion" EntitySet="Excursions" />
-            <End Role="Choice" EntitySet="Choices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Leader_Company1" Association="Self.FK_Leader_Company1">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="Leader" EntitySet="Leaders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Excursion_Leader" Association="Self.FK_Excursion_Leader">
-            <End Role="Leader" EntitySet="Leaders" />
-            <End Role="Excursion" EntitySet="Excursions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Member_Excursion" Association="Self.FK_Member_Excursion">
-            <End Role="Excursion" EntitySet="Excursions" />
-            <End Role="Member" EntitySet="Members" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -271,58 +251,65 @@
           <EntitySetMapping Name="Choices">
             <EntityTypeMapping TypeName="BlackjackDBModel.Choice">
               <MappingFragment StoreEntitySet="Choice">
-                <ScalarProperty Name="Genre" ColumnName="Genre" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="IsFinal" ColumnName="IsFinal" />
-                <ScalarProperty Name="ChoiceID" ColumnName="ChoiceID" />
-                <ScalarProperty Name="ExcursionID" ColumnName="ExcursionID" />
                 <ScalarProperty Name="ChoiceName" ColumnName="ChoiceName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Companies">
-            <EntityTypeMapping TypeName="BlackjackDBModel.Company">
-              <MappingFragment StoreEntitySet="Company">
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="ExcursionID" ColumnName="ExcursionID" />
+                <ScalarProperty Name="ChoiceID" ColumnName="ChoiceID" />
+                <ScalarProperty Name="IsFinal" ColumnName="IsFinal" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Genre" ColumnName="Genre" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Excursions">
             <EntityTypeMapping TypeName="BlackjackDBModel.Excursion">
               <MappingFragment StoreEntitySet="Excursion">
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Budget" ColumnName="Budget" />
-                <ScalarProperty Name="LeadID" ColumnName="LeadID" />
                 <ScalarProperty Name="ExcursionID" ColumnName="ExcursionID" />
+                <ScalarProperty Name="LeadID" ColumnName="LeadID" />
+                <ScalarProperty Name="Budget" ColumnName="Budget" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Leaders">
             <EntityTypeMapping TypeName="BlackjackDBModel.Leader">
               <MappingFragment StoreEntitySet="Leader">
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="LeadID" ColumnName="LeadID" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="BlackjackDBModel.Member">
               <MappingFragment StoreEntitySet="Member">
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="ExcursionID" ColumnName="ExcursionID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="Excursion_Member" TypeName="BlackjackDBModel.Excursion_Member" StoreEntitySet="Excursion-Member">
+            <EndProperty Name="Member">
+              <ScalarProperty Name="Email" ColumnName="Email" />
+            </EndProperty>
+            <EndProperty Name="Excursion">
+              <ScalarProperty Name="ExcursionID" ColumnName="ExcursionID" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

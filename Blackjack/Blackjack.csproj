@@ -80,6 +80,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -199,9 +200,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GroupExcursionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StubHubController.cs" />
+    <Compile Include="Controllers\UserChoicesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -224,9 +227,6 @@
     <Compile Include="Models\Choice.cs">
       <DependentUpon>BlackjackDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Company.cs">
-      <DependentUpon>BlackjackDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Excursion.cs">
       <DependentUpon>BlackjackDB.tt</DependentUpon>
     </Compile>
@@ -244,6 +244,55 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\animate.min.css" />
+    <Content Include="Content\css\bootstrap-theme.css" />
+    <Content Include="Content\css\bootstrap-theme.min.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\product.css" />
+    <Content Include="Content\css\reset.css" />
+    <Content Include="Content\css\scrolling-nav.css" />
+    <Content Include="Content\css\style.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Images\1-large.jpg" />
+    <Content Include="Content\Images\1-small.jpg" />
+    <Content Include="Content\Images\2-large.jpg" />
+    <Content Include="Content\Images\2-small.jpg" />
+    <Content Include="Content\Images\3-large.jpg" />
+    <Content Include="Content\Images\3-small.jpg" />
+    <Content Include="Content\Images\4-large.jpg" />
+    <Content Include="Content\Images\4-small.jpg" />
+    <Content Include="Content\Images\5-large.jpg" />
+    <Content Include="Content\Images\5-small.jpg" />
+    <Content Include="Content\Images\6-large.jpg" />
+    <Content Include="Content\Images\6-small.jpg" />
+    <Content Include="Content\Images\7-large.jpg" />
+    <Content Include="Content\Images\7-small.jpg" />
+    <Content Include="Content\Images\8-large.jpg" />
+    <Content Include="Content\Images\8-small.jpg" />
+    <Content Include="Content\Images\Baseball-game.jpg" />
+    <Content Include="Content\Images\Brian-Wood-.jpg" />
+    <Content Include="Content\Images\cd-icon-close.svg" />
+    <Content Include="Content\Images\Charles-Lambrecht-.jpg" />
+    <Content Include="Content\Images\Comedy.jpg" />
+    <Content Include="Content\Images\Jonas-Paskus.jpg" />
+    <Content Include="Content\Images\member-bio-img-1.jpg" />
+    <Content Include="Content\Images\member-bio-img-2.jpg" />
+    <Content Include="Content\Images\member-bio-img-3.jpg" />
+    <Content Include="Content\Images\slide1.jpg" />
+    <Content Include="Content\Images\slide2.jpg" />
+    <Content Include="Content\Images\slide3.jpg" />
+    <Content Include="Content\Images\team-member-1.jpg" />
+    <Content Include="Content\Images\The-Joe.jpg" />
+    <Content Include="Content\js\bootstrap.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\carousel.js" />
+    <Content Include="Content\js\index.js" />
+    <Content Include="Content\js\main.js" />
+    <Content Include="Content\js\modernizr.js" />
+    <Content Include="Content\js\npm.js" />
+    <Content Include="Content\js\wow.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -270,6 +319,10 @@
     <Content Include="Models\BlackjackDB.edmx.diagram">
       <DependentUpon>BlackjackDB.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\webappJKP - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -320,14 +373,16 @@
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\StubHub\StubHubSearchResult.cshtml" />
     <Content Include="Views\Home\Main.cshtml" />
+    <Content Include="Views\GroupExcursion\AddGroupMember.cshtml" />
+    <Content Include="Views\GroupExcursion\ListAllMembers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\css\" />
     <Folder Include="Content\Flip_turn\" />
-    <Folder Include="Content\fonts\" />
-    <Folder Include="Content\Images\" />
-    <Folder Include="Content\js\" />
+    <Folder Include="Content\fonts\fonts\" />
+    <Folder Include="Views\LeaderSignUp\" />
+    <Folder Include="Views\NewFolder1\" />
+    <Folder Include="Views\UserChoices\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
