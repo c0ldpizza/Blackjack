@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace Blackjack.Models
 {
     public class ExternalLoginConfirmationViewModel
@@ -64,6 +65,18 @@ namespace Blackjack.Models
 
     public class RegisterViewModel
     {
+        [Required]       
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]        
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        
+        [Display(Name = "Group Name or Company Name")]
+        public string Company { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
