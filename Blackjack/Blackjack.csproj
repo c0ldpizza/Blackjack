@@ -214,10 +214,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ExcursionsController.cs" />
     <Compile Include="Controllers\GroupExcursionController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\StubHubController.cs" />
     <Compile Include="Controllers\UserChoicesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -229,6 +231,9 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AspNetUser.cs">
+      <DependentUpon>BlackjackDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\BlackjackDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -252,9 +257,6 @@
       <DependentUpon>BlackjackDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Leader.cs">
-      <DependentUpon>BlackjackDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Member.cs">
       <DependentUpon>BlackjackDB.tt</DependentUpon>
@@ -416,6 +418,16 @@
     <Content Include="Views\Email\MemberResponse.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Excursions\Create.cshtml" />
+    <Content Include="Views\Excursions\Delete.cshtml" />
+    <Content Include="Views\Excursions\Details.cshtml" />
+    <Content Include="Views\Excursions\Edit.cshtml" />
+    <Content Include="Views\Excursions\Index.cshtml" />
+    <Content Include="Views\Members\Create.cshtml" />
+    <Content Include="Views\Members\Delete.cshtml" />
+    <Content Include="Views\Members\Details.cshtml" />
+    <Content Include="Views\Members\Edit.cshtml" />
+    <Content Include="Views\Members\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

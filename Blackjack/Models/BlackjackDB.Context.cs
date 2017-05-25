@@ -27,7 +27,7 @@ namespace Blackjack.Models
     
         public virtual DbSet<Choice> Choices { get; set; }
         public virtual DbSet<Excursion> Excursions { get; set; }
-        public virtual DbSet<Leader> Leaders { get; set; }
         public virtual DbSet<Member> Members { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
     }
 }
