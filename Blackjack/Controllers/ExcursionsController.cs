@@ -74,7 +74,7 @@ namespace Blackjack.Controllers
                 db.Excursions.Add(excursion);
                 db.SaveChanges();
 
-                return RedirectToAction("Index", "Members");
+                return RedirectToAction("Create", "Members");
 
             }
 
