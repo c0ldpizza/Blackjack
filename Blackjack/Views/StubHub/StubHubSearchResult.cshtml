@@ -5,17 +5,18 @@
 
 <h2>StubHubSearchResult</h2>
 
-<table>
-    @foreach (var element in ViewBag.Message)
+
+@*<select multiple="multiple" class="image-picker show-labels show img-thumbnail show-html">
+@foreach (var element in ViewBag.Results)
     {
-        <tr>
-            <td>@element.Name</td>
-            <td>@element.WebURI</td>
-            <td>@element.ImageURL</td>
-            <td>@element.Id</td>
-            <td>@element.Category</td>
-            @*<td>@element["categories"][1]["name"]</td>
-            <td>@element["images"][0]["url"]</td>*@
-        </tr>
+    <option data-img-src="@element.ImageURL" value="@element.Id">@element.ImageURL</option>
     }
-</table>
+</select>*@
+
+
+@foreach (var element in ViewBag.Results)
+{    @element.Name 
+    <img src="@element.ImageURL" width="200" height="200" />
+    <input type="checkbox" name="@element.Name" value="@element.Id"> <br /><br />
+
+}

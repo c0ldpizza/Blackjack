@@ -54,7 +54,7 @@ namespace Blackjack.Controllers
 
             string data = rd.ReadToEnd();
 
-            ViewBag.Message = createEventList(data);
+            ViewBag.Results = createEventList(data);
 
             return View("StubHubSearchResult");     //Brian's view
 

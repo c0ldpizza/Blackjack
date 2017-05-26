@@ -392,7 +392,7 @@ namespace Blackjack.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Home", "Main");
+            return RedirectToAction("Main", "Home");
         }
 
         //

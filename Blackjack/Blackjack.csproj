@@ -428,14 +428,16 @@
     <Content Include="Views\Members\Details.cshtml" />
     <Content Include="Views\Members\Edit.cshtml" />
     <Content Include="Views\Members\Index.cshtml" />
+    <Content Include="Views\UserChoices\UserChoices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Flip_turn\" />
     <Folder Include="Content\fonts\fonts\" />
+    <Folder Include="Content\image-picker\" />
+    <Folder Include="Content\source\" />
     <Folder Include="Views\LeaderSignUp\" />
     <Folder Include="Views\NewFolder1\" />
-    <Folder Include="Views\UserChoices\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

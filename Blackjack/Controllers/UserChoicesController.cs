@@ -9,7 +9,7 @@ namespace Blackjack.Controllers
     public class UserChoicesController : Controller
     {
         // GET: UserChoices
-        public ActionResult Index()
+        public ActionResult UserChoices()
         {
             return View();
         }
