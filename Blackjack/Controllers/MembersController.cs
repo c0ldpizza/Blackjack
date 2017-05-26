@@ -14,10 +14,12 @@ namespace Blackjack.Controllers
     {
         private BlackjackDBEntities db = new BlackjackDBEntities();
 
+
         // GET: Members
         public ActionResult Index()
         {
-            return View(db.Members.ToList());
+            ViewBag.ExcursionIDtest = ViewBag.ExcursionID; //db.Members.Where(x => x.ExcursionID.Equals(id)).ToList();
+            return View();
         }
 
         // GET: Members/Details/5
@@ -46,8 +48,10 @@ namespace Blackjack.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirstName,LastName,Email,ExcursionID")] Member member)
+        public ActionResult Create([Bind(Include = "FirstName,LastName,Email")] Member member) //,ExcursionID
         {
+            member.ExcursionID = 10000; //make dynamic
+            ViewBag.ExcursionID = member.ExcursionID;
             if (ModelState.IsValid)
             {
                 db.Members.Add(member);

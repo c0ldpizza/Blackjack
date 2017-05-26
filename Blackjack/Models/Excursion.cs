@@ -23,7 +23,7 @@ namespace Blackjack.Models
     
         public string Location { get; set; }
         public System.DateTime Date { get; set; }
-        public decimal Budget { get; set; }
+        public Nullable<decimal> Budget { get; set; }
         public string LeadID { get; set; }
         public int ExcursionID { get; set; }
     

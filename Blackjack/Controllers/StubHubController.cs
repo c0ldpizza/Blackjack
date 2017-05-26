@@ -26,8 +26,9 @@ namespace Blackjack.Controllers
         {
             DateTime date = DateTime.Today;
             string dateString = "2017-06-29";// T19:30:00-0700";
+            string city = "New York";
 
-            ViewBag.Message = GetStubHubData("New", dateString);
+            ViewBag.Message = GetStubHubData(city, dateString);
 
             return View();
         }

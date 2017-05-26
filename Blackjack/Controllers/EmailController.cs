@@ -21,16 +21,16 @@ namespace Blackjack.Controllers
         public ActionResult SendEmail()
         {
             //ExecuteTest().Wait();
-            Execute();
+            Execute(123);
 
             return View("MemberResponse");
         }
 
-        static void Execute()//List<Member> memberList)
+        static void Execute(int excursionID)//List<Member> memberList)
         {
             BlackjackDBEntities NE = new BlackjackDBEntities();
 
-            List<Member> memberList = NE.Members.Where(x => x.ExcursionID.Equals(123456)).ToList();
+            List<Member> memberList = NE.Members.Where(x => x.ExcursionID.Equals(excursionID)).ToList();
 
             var client = new SendGridClient("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");
             SendGridMessage msg = new SendGridMessage();
@@ -44,9 +44,9 @@ namespace Blackjack.Controllers
                     EmailAddress email = new EmailAddress(member.Email , member.FirstName);
                     recipients.Add(email);
                 }
-                new EmailAddress("lambrechtca@gmail.com", "Charlie Lambrecht");
-                new EmailAddress("csharpwebapplications@gmail.com", "Brian Wood");
-                new EmailAddress("jkpaskus@gmail.com", "Jonas Paskus");
+                //new EmailAddress("lambrechtca@gmail.com", "Charlie Lambrecht");
+                //new EmailAddress("csharpwebapplications@gmail.com", "Brian Wood");
+                //new EmailAddress("jkpaskus@gmail.com", "Jonas Paskus");
            
 
             msg.AddTos(recipients);

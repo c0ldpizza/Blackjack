@@ -48,13 +48,17 @@ namespace Blackjack.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Location,Date,Budget,LeadID,ExcursionID")] Excursion excursion)
+        public ActionResult Create([Bind(Include = "Location,Date")] Excursion excursion) //Budget,LeadID,ExcursionID
         {
+            AspNetUser leader = (AspNetUser)db.AspNetUsers.Where(x => x.UserName.Equals(User.Identity.Name)); // this is garbage
+            excursion.LeadID = leader.Id;
+
             if (ModelState.IsValid)
             {
                 db.Excursions.Add(excursion);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.ExcursionID = excursion.ExcursionID;
+                return RedirectToAction("../Members/Index");
             }
 
             ViewBag.LeadID = new SelectList(db.AspNetUsers, "Id", "FirstName", excursion.LeadID);

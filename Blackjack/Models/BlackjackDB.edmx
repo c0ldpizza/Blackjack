@@ -44,7 +44,7 @@
           </Key>
           <Property Name="Location" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="Budget" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="Budget" Type="decimal" Precision="7" Scale="2" />
           <Property Name="LeadID" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ExcursionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
@@ -178,7 +178,7 @@
           </Key>
           <Property Name="Location" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Budget" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="Budget" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="LeadID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ExcursionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Choices" Relationship="BlackjackDBModel.FK_Choice_Excursion" FromRole="Excursion" ToRole="Choice" />
