@@ -74,9 +74,9 @@ namespace Blackjack.Controllers
                 db.Excursions.Add(newExcursion);
                 db.SaveChanges();
 
-                ViewBag.NewExcursion = newExcursion;
+                //ViewBag.NewExcursionID = newExcursion.ExcursionID;
 
-                return RedirectToAction("Create", "Members");
+                return RedirectToAction("Create", "Members", new { excID = newExcursion.ExcursionID });
 
             }
 

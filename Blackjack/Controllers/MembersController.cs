@@ -25,6 +25,8 @@ namespace Blackjack.Controllers
             Excursion temp = new Excursion();
             temp.ExcursionID = ID.Value;
             List<Member> members = db.Members.Include(e => e.Excursions).ToList().Where(e => e.ExcursionID == ID).ToList();
+                ViewBag.ExID = ID.Value;
+
             return View(members);
             }
 
@@ -57,13 +59,13 @@ namespace Blackjack.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirstName,LastName,Email")] Member member) //,ExcursionID
+        public ActionResult Create([Bind(Include = "FirstName,LastName,Email")] Member member, int? excID) //,ExcursionID
         {
-            string userID = User.Identity.GetUserId();
+           // string userID = User.Identity.GetUserId();
 
-            Excursion excursions = db.Excursions.Single(e => e.LeadID == userID);   //need to fix this statement to select only current Excursion
+          //  Excursion excursions = db.Excursions.Single(e => e.LeadID == userID);   //need to fix this statement to select only current Excursion
 
-            member.ExcursionID = excursions.ExcursionID;
+            member.ExcursionID = excID.Value;
 
             ViewBag.ExcursionID = member.ExcursionID;
 
