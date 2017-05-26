@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Blackjack.Models;
-
+using Microsoft.AspNet.Identity;
 namespace Blackjack.Controllers
 {
     public class ExcursionsController : Controller
@@ -39,8 +39,25 @@ namespace Blackjack.Controllers
         // GET: Excursions/Create
         public ActionResult Create()
         {
+            //Random rnd = new Random();
+
+            //int excursionId = rnd.Next(100000, 9999999);
+
+            //ViewBag.receipt = excursionId;
+
             ViewBag.LeadID = new SelectList(db.AspNetUsers, "Id", "FirstName");
             return View();
+        }
+
+        public ActionResult SearchCity(string SearchExcursion)
+        {
+            BlackjackDBEntities NE = new BlackjackDBEntities();
+
+            List<Excursion> ExcursionList = NE.Excursions.Where(x => x.ExcursionID.Equals(SearchExcursion.ToUpper())).ToList();
+
+            ViewBag.ExcursionList = ExcursionList;
+
+            return View("ListAllCustomers");
         }
 
         // POST: Excursions/Create
@@ -48,17 +65,22 @@ namespace Blackjack.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Location,Date")] Excursion excursion) //Budget,LeadID,ExcursionID
+
+        public ActionResult Create([Bind(Include = "Location,Date,Budget,LeadID,ExcursionID")] Excursion excursion)
         {
-            AspNetUser leader = (AspNetUser)db.AspNetUsers.Where(x => x.UserName.Equals(User.Identity.Name)); // this is garbage
-            excursion.LeadID = leader.Id;
 
             if (ModelState.IsValid)
             {
+                excursion.LeadID = User.Identity.GetUserId();
+
                 db.Excursions.Add(excursion);
                 db.SaveChanges();
-                ViewBag.ExcursionID = excursion.ExcursionID;
-                return RedirectToAction("../Members/Index");
+
+                //ViewBag.ExcursionID = excursion.ExcursionID;
+                //return RedirectToAction("../Members/Index");
+
+                return RedirectToAction("ListAllMembers", "GroupExcursion");
+
             }
 
             ViewBag.LeadID = new SelectList(db.AspNetUsers, "Id", "FirstName", excursion.LeadID);
