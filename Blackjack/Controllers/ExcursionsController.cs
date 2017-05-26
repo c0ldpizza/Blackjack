@@ -15,9 +15,11 @@ namespace Blackjack.Controllers
         private BlackjackDBEntities db = new BlackjackDBEntities();
 
         // GET: Excursions
+        [Authorize]
         public ActionResult Index()
         {
-            var excursions = db.Excursions.Include(e => e.AspNetUser);
+            string s = User.Identity.GetUserId(); 
+            var excursions = db.Excursions.Where(e => e.LeadID == s );
             return View(excursions.ToList());
         }
 

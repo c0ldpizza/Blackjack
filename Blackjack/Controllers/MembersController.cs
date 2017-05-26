@@ -16,10 +16,15 @@ namespace Blackjack.Controllers
 
 
         // GET: Members
-        public ActionResult Index()
+        public ActionResult Index(int ID)
         {
-            ViewBag.ExcursionIDtest = ViewBag.ExcursionID; //db.Members.Where(x => x.ExcursionID.Equals(id)).ToList();
-            return View();
+            //  ViewBag.ExcursionIDtest = ViewBag.ExcursionID; //db.Members.Where(x => x.ExcursionID.Equals(id)).ToList();
+            Excursion temp = new Excursion();
+            temp.ExcursionID = ID;
+            List<Member> members = db.Members.Include(e => e.Excursions).ToList().Where(e=>e.ExcursionID==ID).ToList();
+            
+
+            return View(members);
         }
 
         // GET: Members/Details/5
