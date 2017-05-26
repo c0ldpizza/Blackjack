@@ -73,7 +73,7 @@
         <h2 align="center">List of Choices Based on Your Request</h2>
 
         <table class="table"
-               @foreach (var element in ViewBag.Results) {  <tr><td align="center">@element.Name</td></tr>
+               @foreach (var element in ViewBag.Results) {  <tr><td align="center">@element.Name, @element.EventDateLocal</td></tr>
             <tr><td align="center"><img src="@element.ImageURL" width="200" height="200" /></td></tr>
             <tr><td align="center"><input type="checkbox" name="@element.Name" value="@element.Id"></td></tr>           
         }
