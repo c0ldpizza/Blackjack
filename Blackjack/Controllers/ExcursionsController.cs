@@ -41,11 +41,7 @@ namespace Blackjack.Controllers
         // GET: Excursions/Create
         public ActionResult Create()
         {
-            //Random rnd = new Random();
 
-            //int excursionId = rnd.Next(100000, 9999999);
-
-            //ViewBag.receipt = excursionId;
 
             ViewBag.LeadID = new SelectList(db.AspNetUsers, "Id", "FirstName");
             return View();
@@ -59,7 +55,7 @@ namespace Blackjack.Controllers
 
             ViewBag.ExcursionList = ExcursionList;
 
-            return View("ListAllCustomers");
+            return View("Index");
         }
 
         // POST: Excursions/Create
@@ -78,10 +74,7 @@ namespace Blackjack.Controllers
                 db.Excursions.Add(excursion);
                 db.SaveChanges();
 
-                //ViewBag.ExcursionID = excursion.ExcursionID;
-                //return RedirectToAction("../Members/Index");
-
-                return RedirectToAction("ListAllMembers", "GroupExcursion");
+                return RedirectToAction("Index", "Members");
 
             }
 
