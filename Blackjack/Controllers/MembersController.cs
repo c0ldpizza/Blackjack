@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Blackjack.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Blackjack.Controllers
 {
@@ -16,15 +17,18 @@ namespace Blackjack.Controllers
 
 
         // GET: Members
-        public ActionResult Index(int ID)
+        public ActionResult Index(int? ID)
         {
-            //  ViewBag.ExcursionIDtest = ViewBag.ExcursionID; //db.Members.Where(x => x.ExcursionID.Equals(id)).ToList();
-            Excursion temp = new Excursion();
-            temp.ExcursionID = ID;
-            List<Member> members = db.Members.Include(e => e.Excursions).ToList().Where(e=>e.ExcursionID==ID).ToList();
-            
 
+            if (ID.HasValue)
+            { 
+            Excursion temp = new Excursion();
+            temp.ExcursionID = ID.Value;
+            List<Member> members = db.Members.Include(e => e.Excursions).ToList().Where(e => e.ExcursionID == ID).ToList();
             return View(members);
+            }
+
+            return View("../Home/Main");
         }
 
         // GET: Members/Details/5
@@ -55,8 +59,14 @@ namespace Blackjack.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "FirstName,LastName,Email")] Member member) //,ExcursionID
         {
-            member.ExcursionID = 10000; //make dynamic
+            string userID = User.Identity.GetUserId();
+
+            Excursion excursions = db.Excursions.Single(e => e.LeadID == userID);   //need to fix this statement to select only current Excursion
+
+            member.ExcursionID = excursions.ExcursionID;
+
             ViewBag.ExcursionID = member.ExcursionID;
+
             if (ModelState.IsValid)
             {
                 db.Members.Add(member);

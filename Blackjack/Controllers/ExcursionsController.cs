@@ -18,8 +18,8 @@ namespace Blackjack.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            string s = User.Identity.GetUserId(); 
-            var excursions = db.Excursions.Where(e => e.LeadID == s );
+            string userID = User.Identity.GetUserId(); 
+            var excursions = db.Excursions.Where(e => e.LeadID == userID );
             return View(excursions.ToList());
         }
 
@@ -64,22 +64,24 @@ namespace Blackjack.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Create([Bind(Include = "Location,Date,Budget,LeadID,ExcursionID")] Excursion excursion)
+        public ActionResult Create([Bind(Include = "Location,Date,Budget,LeadID,ExcursionID")] Excursion newExcursion)
         {
 
             if (ModelState.IsValid)
             {
-                excursion.LeadID = User.Identity.GetUserId();
+                newExcursion.LeadID = User.Identity.GetUserId();
 
-                db.Excursions.Add(excursion);
+                db.Excursions.Add(newExcursion);
                 db.SaveChanges();
+
+                ViewBag.NewExcursion = newExcursion;
 
                 return RedirectToAction("Create", "Members");
 
             }
 
-            ViewBag.LeadID = new SelectList(db.AspNetUsers, "Id", "FirstName", excursion.LeadID);
-            return View(excursion);
+            ViewBag.LeadID = new SelectList(db.AspNetUsers, "Id", "FirstName", newExcursion.LeadID);
+            return View(newExcursion);
         }
 
         // GET: Excursions/Edit/5
