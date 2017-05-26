@@ -67,15 +67,13 @@ namespace Blackjack.Controllers
             // get JSON result objects into a list
             IList<JToken> eventFields = StubHubData["events"].Children().ToList();
 
-            //eventFields.Add(StubHubData["events"][0]["categories"][1]["name"]);   //attempt to add category from JSON data
-
             // serialize JSON results into .NET objects
             IList<Event> searchResults = new List<Event>();
 
             //create Event objects with fields that match JTokens
             foreach (JToken result in eventFields)
             {
-                Event searchResult = JsonConvert.DeserializeObject<Event>(result.ToString());  //result["categories"][1]["name"]
+                Event searchResult = JsonConvert.DeserializeObject<Event>(result.ToString());
                 searchResults.Add(searchResult);
             }
 
