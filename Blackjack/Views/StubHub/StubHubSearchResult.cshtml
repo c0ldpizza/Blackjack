@@ -70,7 +70,7 @@
         </nav>
 
 
-        <h2>StubHubSearchResult</h2>
+        <h2 align="center">List of Choices Based on Your Request</h2>
 
         <table class="table"
                @foreach (var element in ViewBag.Results) {  <tr><td align="center">@element.Name</td></tr>
@@ -78,3 +78,8 @@
             <tr><td align="center"><input type="checkbox" name="@element.Name" value="@element.Id"></td></tr>           
         }
         </table>
+
+        <div>
+            @Html.ActionLink("Submit your completed request", "../UserChoices/UserChoices")
+        </div>
+
