@@ -30,7 +30,9 @@ namespace Blackjack.Controllers
 
             IList<Event> EventList = GetStubHubData(excursionCity, excursionDate);
 
-
+            ViewBag.ID = id;
+            ViewBag.Date = date;
+            ViewBag.City = city;
 
             return View("StubHubSearchResult", EventList);
         }

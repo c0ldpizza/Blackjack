@@ -64,6 +64,8 @@
                     <ul class="nav navbar-nav navbar-left">
                         <li><a href="http://localhost:54054/Home/Main" style="color: white;">Home</a></li>
                     </ul>
+
+                    @*transfer welcome/logout  or Login buttons?*@
                 </div>
             </div>
         </div>
@@ -74,13 +76,17 @@
 
     <table class="table">
         @foreach (var element in Model)
-            {
+        {
             <tr><td align="center">@element.Name, @element.EventDateLocal</td></tr>
-                    <tr><td align="center"><img src="@element.ImageURL" width="200" height="200" /></td></tr>
-                    <tr><td align="center"><input type="checkbox" name="@element.Name" value="@element.Id"></td></tr>
+            <tr><td align="center"><a href="https://www.stubhub.com/@element.WebURI"><img src="@element.ImageURL" width="200" height="200" /></a></td></tr>
+            <tr><td align="center"><input type="checkbox" name="@element.Name" value="@element.Id"></td></tr>
         }
     </table>
 
+    <div>
+        @Html.ActionLink("New List", "StubHubSearchResult", new { id = ViewBag.ID, date = ViewBag.Date, city = ViewBag.City })
+    </div>
+    <br/>
     <div>
         @Html.ActionLink("Submit your completed request", "../UserChoices/UserChoices")
     </div>
