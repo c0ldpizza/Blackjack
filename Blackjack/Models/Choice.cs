@@ -21,6 +21,7 @@ namespace Blackjack.Models
         public string ChoiceID { get; set; }
         public int ExcursionID { get; set; }
         public string ChoiceName { get; set; }
+        public int Votes { get; set; }
     
         public virtual Excursion Excursion { get; set; }
     }

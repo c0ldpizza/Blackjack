@@ -9,9 +9,17 @@
         <EntityTypeShape EntityType="BlackjackDBModel.Excursion" Width="1.5" PointX="3" PointY="2.375" />
         <EntityTypeShape EntityType="BlackjackDBModel.Member" Width="1.5" PointX="5.25" PointY="1.125" />
         <AssociationConnector Association="BlackjackDBModel.FK_Choice_Excursion" />
-        <AssociationConnector Association="BlackjackDBModel.Excursion_Member" />
         <EntityTypeShape EntityType="BlackjackDBModel.AspNetUser" Width="1.5" PointX="0.625" PointY="1.75" />
         <AssociationConnector Association="BlackjackDBModel.FK_Excursion_AspNetUsers1" />
+        <EntityTypeShape EntityType="BlackjackDBModel.C__MigrationHistory" Width="1.5" PointX="9" PointY="2" />
+        <EntityTypeShape EntityType="BlackjackDBModel.AspNetRole" Width="1.5" PointX="3" PointY="0.5" />
+        <EntityTypeShape EntityType="BlackjackDBModel.AspNetUserClaim" Width="1.5" PointX="4.5" PointY="10.625" />
+        <EntityTypeShape EntityType="BlackjackDBModel.AspNetUserLogin" Width="1.5" PointX="4.5" PointY="8" />
+        <EntityTypeShape EntityType="BlackjackDBModel.sysdiagram" Width="1.5" PointX="9" PointY="5" />
+        <AssociationConnector Association="BlackjackDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="BlackjackDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="BlackjackDBModel.AspNetUserRoles" />
+        <AssociationConnector Association="BlackjackDBModel.Excursion_Member" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -17,15 +17,15 @@ namespace Blackjack.Controllers
 
 
         // GET: Members
-        public ActionResult Index(int? ID)
+        public ActionResult Index(int? id)
         {
 
-            if (ID.HasValue)
+            if (id.HasValue)
             { 
             Excursion temp = new Excursion();
-            temp.ExcursionID = ID.Value;
-            List<Member> members = db.Members.Include(e => e.Excursions).ToList().Where(e => e.ExcursionID == ID).ToList();
-                ViewBag.ExID = ID.Value;
+            temp.ExcursionID = id.Value;
+            List<Member> members = db.Members.Include(e => e.Excursions).ToList().Where(e => e.ExcursionID == id).ToList();
+                ViewBag.excID = id.Value;
 
             return View(members);
             }
@@ -34,9 +34,9 @@ namespace Blackjack.Controllers
         }
 
         // GET: Members/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
+            if (id.Equals(null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -49,8 +49,9 @@ namespace Blackjack.Controllers
         }
 
         // GET: Members/Create
-        public ActionResult Create()
+        public ActionResult Create(int? excID)
         {
+            ViewBag.ExcursionID = excID.Value;
             return View();
         }
 
@@ -59,12 +60,8 @@ namespace Blackjack.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirstName,LastName,Email")] Member member, int? excID) //,ExcursionID
+        public ActionResult Create([Bind(Include = "FirstName,LastName,Email")] Member member, int? excID) 
         {
-           // string userID = User.Identity.GetUserId();
-
-          //  Excursion excursions = db.Excursions.Single(e => e.LeadID == userID);   //need to fix this statement to select only current Excursion
-
             member.ExcursionID = excID.Value;
 
             ViewBag.ExcursionID = member.ExcursionID;
@@ -73,16 +70,16 @@ namespace Blackjack.Controllers
             {
                 db.Members.Add(member);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = member.ExcursionID });
             }
 
             return View(member);
         }
 
         // GET: Members/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
+            if (id.Equals(null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -99,21 +96,22 @@ namespace Blackjack.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FirstName,LastName,Email,ExcursionID")] Member member)
+        public ActionResult Edit([Bind(Include = "FirstName,LastName,Email,ExcursionID")] Member member, int id)
         {
+            member.MemberID = id;
             if (ModelState.IsValid)
             {
                 db.Entry(member).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = member.ExcursionID });
             }
             return View(member);
         }
 
         // GET: Members/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
+            if (id.Equals(null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -128,12 +126,12 @@ namespace Blackjack.Controllers
         // POST: Members/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int id)
         {
             Member member = db.Members.Find(id);
             db.Members.Remove(member);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = member.ExcursionID });
         }
 
         protected override void Dispose(bool disposing)

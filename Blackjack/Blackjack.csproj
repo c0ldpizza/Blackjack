@@ -230,7 +230,16 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AspNetRole.cs">
+      <DependentUpon>BlackjackDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetUser.cs">
+      <DependentUpon>BlackjackDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaim.cs">
+      <DependentUpon>BlackjackDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogin.cs">
       <DependentUpon>BlackjackDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BlackjackDB.Context.cs">
@@ -251,6 +260,9 @@
     <Compile Include="Models\Choice.cs">
       <DependentUpon>BlackjackDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\C__MigrationHistory.cs">
+      <DependentUpon>BlackjackDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Excursion.cs">
       <DependentUpon>BlackjackDB.tt</DependentUpon>
@@ -258,6 +270,9 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Member.cs">
+      <DependentUpon>BlackjackDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>BlackjackDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,6 +5,50 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="BlackjackDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -37,6 +81,7 @@
           <Property Name="ChoiceID" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="ExcursionID" Type="int" Nullable="false" />
           <Property Name="ChoiceName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Votes" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Excursion">
           <Key>
@@ -50,20 +95,31 @@
         </EntityType>
         <EntityType Name="Excursion-Member">
           <Key>
-            <PropertyRef Name="Email" />
             <PropertyRef Name="ExcursionID" />
+            <PropertyRef Name="MemberID" />
           </Key>
-          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ExcursionID" Type="int" Nullable="false" />
+          <Property Name="MemberID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
-            <PropertyRef Name="Email" />
+            <PropertyRef Name="MemberID" />
           </Key>
           <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ExcursionID" Type="int" Nullable="false" />
+          <Property Name="MemberID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK_Choice_Excursion">
           <End Role="Excursion" Type="Self.Excursion" Multiplicity="1" />
@@ -74,6 +130,62 @@
             </Principal>
             <Dependent Role="Choice">
               <PropertyRef Name="ExcursionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -106,22 +218,44 @@
           <End Role="Excursion-Member" Type="Self.Excursion-Member" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Member">
-              <PropertyRef Name="Email" />
+              <PropertyRef Name="MemberID" />
             </Principal>
             <Dependent Role="Excursion-Member">
-              <PropertyRef Name="Email" />
+              <PropertyRef Name="MemberID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="BlackjackDBModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Choice" EntityType="Self.Choice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Excursion" EntityType="Self.Excursion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Excursion-Member" EntityType="Self.Excursion-Member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Choice_Excursion" Association="Self.FK_Choice_Excursion">
             <End Role="Excursion" EntitySet="Excursion" />
             <End Role="Choice" EntitySet="Choice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
           <AssociationSet Name="FK_Excursion_AspNetUsers" Association="Self.FK_Excursion_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -148,14 +282,31 @@
             <End Role="Excursion" EntitySet="Excursions" />
             <End Role="Choice" EntitySet="Choices" />
           </AssociationSet>
-          <AssociationSet Name="Excursion_Member" Association="BlackjackDBModel.Excursion_Member">
-            <End Role="Excursion" EntitySet="Excursions" />
-            <End Role="Member" EntitySet="Members" />
-          </AssociationSet>
           <EntitySet Name="AspNetUsers" EntityType="BlackjackDBModel.AspNetUser" />
           <AssociationSet Name="FK_Excursion_AspNetUsers1" Association="BlackjackDBModel.FK_Excursion_AspNetUsers1">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="Excursion" EntitySet="Excursions" />
+          </AssociationSet>
+          <EntitySet Name="C__MigrationHistory" EntityType="BlackjackDBModel.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="BlackjackDBModel.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="BlackjackDBModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="BlackjackDBModel.AspNetUserLogin" />
+          <EntitySet Name="sysdiagrams" EntityType="BlackjackDBModel.sysdiagram" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="BlackjackDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="BlackjackDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="BlackjackDBModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="Excursion_Member" Association="BlackjackDBModel.Excursion_Member">
+            <End Role="Excursion" EntitySet="Excursions" />
+            <End Role="Member" EntitySet="Members" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Choice">
@@ -171,6 +322,7 @@
           <Property Name="ExcursionID" Type="Int32" Nullable="false" />
           <Property Name="ChoiceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Excursion" Relationship="BlackjackDBModel.FK_Choice_Excursion" FromRole="Choice" ToRole="Excursion" />
+          <Property Name="Votes" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Excursion">
           <Key>
@@ -182,18 +334,19 @@
           <Property Name="LeadID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ExcursionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Choices" Relationship="BlackjackDBModel.FK_Choice_Excursion" FromRole="Excursion" ToRole="Choice" />
-          <NavigationProperty Name="Members" Relationship="BlackjackDBModel.Excursion_Member" FromRole="Excursion" ToRole="Member" />
           <NavigationProperty Name="AspNetUser" Relationship="BlackjackDBModel.FK_Excursion_AspNetUsers1" FromRole="Excursion" ToRole="AspNetUser" />
+          <NavigationProperty Name="Members" Relationship="BlackjackDBModel.Excursion_Member" FromRole="Excursion" ToRole="Member" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
-            <PropertyRef Name="Email" />
+            <PropertyRef Name="MemberID" />
           </Key>
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Excursions" Relationship="BlackjackDBModel.Excursion_Member" FromRole="Member" ToRole="Excursion" />
           <Property Name="ExcursionID" Type="Int32" Nullable="false" />
+          <Property Name="MemberID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Excursions" Relationship="BlackjackDBModel.Excursion_Member" FromRole="Member" ToRole="Excursion" />
         </EntityType>
         <Association Name="FK_Choice_Excursion">
           <End Type="BlackjackDBModel.Excursion" Role="Excursion" Multiplicity="1" />
@@ -206,10 +359,6 @@
               <PropertyRef Name="ExcursionID" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="Excursion_Member">
-          <End Type="BlackjackDBModel.Excursion" Role="Excursion" Multiplicity="*" />
-          <End Type="BlackjackDBModel.Member" Role="Member" Multiplicity="*" />
         </Association>
         <EntityType Name="AspNetUser">
           <Key>
@@ -231,6 +380,9 @@
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Excursions" Relationship="BlackjackDBModel.FK_Excursion_AspNetUsers1" FromRole="AspNetUser" ToRole="Excursion" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="BlackjackDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="BlackjackDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="AspNetRoles" Relationship="BlackjackDBModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
         </EntityType>
         <Association Name="FK_Excursion_AspNetUsers1">
           <End Type="BlackjackDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -244,6 +396,91 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="BlackjackDBModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="BlackjackDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="BlackjackDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="BlackjackDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="BlackjackDBModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="BlackjackDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="BlackjackDBModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="BlackjackDBModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="BlackjackDBModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <Association Name="Excursion_Member">
+          <End Type="BlackjackDBModel.Excursion" Role="Excursion" Multiplicity="*" />
+          <End Type="BlackjackDBModel.Member" Role="Member" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -253,6 +490,7 @@
           <EntitySetMapping Name="Choices">
             <EntityTypeMapping TypeName="BlackjackDBModel.Choice">
               <MappingFragment StoreEntitySet="Choice">
+                <ScalarProperty Name="Votes" ColumnName="Votes" />
                 <ScalarProperty Name="ChoiceName" ColumnName="ChoiceName" />
                 <ScalarProperty Name="ExcursionID" ColumnName="ExcursionID" />
                 <ScalarProperty Name="ChoiceID" ColumnName="ChoiceID" />
@@ -277,6 +515,7 @@
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="BlackjackDBModel.Member">
               <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
                 <ScalarProperty Name="ExcursionID" ColumnName="ExcursionID" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -284,14 +523,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="Excursion_Member" TypeName="BlackjackDBModel.Excursion_Member" StoreEntitySet="Excursion-Member">
-            <EndProperty Name="Member">
-              <ScalarProperty Name="Email" ColumnName="Email" />
-            </EndProperty>
-            <EndProperty Name="Excursion">
-              <ScalarProperty Name="ExcursionID" ColumnName="ExcursionID" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="BlackjackDBModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
@@ -313,6 +544,70 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="BlackjackDBModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="BlackjackDBModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="BlackjackDBModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="BlackjackDBModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="BlackjackDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="BlackjackDBModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Excursion_Member" TypeName="BlackjackDBModel.Excursion_Member" StoreEntitySet="Excursion-Member">
+            <EndProperty Name="Member">
+              <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+            </EndProperty>
+            <EndProperty Name="Excursion">
+              <ScalarProperty Name="ExcursionID" ColumnName="ExcursionID" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
