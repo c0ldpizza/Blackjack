@@ -22,20 +22,22 @@ namespace Blackjack.Controllers
             return View();
         }
 
-        public ActionResult StubHubSearchResult()
+        public ActionResult StubHubSearchResult(int id, DateTime date, string city)
         {
-            DateTime date = DateTime.Today;
-            string dateString = "2017-06-29";// T19:30:00-0700";
-            string city = "New York";
+            int excursionID = id;
+            DateTime excursionDate = date;
+            string excursionCity = city;
 
-            ViewBag.Message = GetStubHubData(city, dateString);
+            IList<Event> EventList = GetStubHubData(excursionCity, excursionDate);
 
-            return View();
+
+
+            return View("StubHubSearchResult", EventList);
         }
 
-        public ActionResult GetStubHubData(string city, string date)
+        public static IList<Event> GetStubHubData(string city, DateTime date)
         {
-            string queryString = "https://api.stubhub.com/search/catalog/events/v3?status=active&start=0&rows=20&city=" + city
+            string queryString = "https://api.stubhub.com/search/catalog/events/v3?status=active&start=0&rows=9&city=" + city
                 + "&eventDateLocal=" + date;
 
             HttpWebRequest request = WebRequest.CreateHttp(queryString);
@@ -54,9 +56,9 @@ namespace Blackjack.Controllers
 
             string data = rd.ReadToEnd();
 
-            ViewBag.Results = createEventList(data);
+            IList<Event> results = createEventList(data);
 
-            return View("StubHubSearchResult");     //Brian's view
+            return results;
 
         }
 

@@ -47,10 +47,6 @@ namespace Blackjack.Controllers
                     EmailAddress email = new EmailAddress(member.Email , member.FirstName);
                     recipients.Add(email);
                 }
-                //new EmailAddress("lambrechtca@gmail.com", "Charlie Lambrecht");
-                //new EmailAddress("csharpwebapplications@gmail.com", "Brian Wood");
-                //new EmailAddress("jkpaskus@gmail.com", "Jonas Paskus");
-           
 
             msg.AddTos(recipients);
 
