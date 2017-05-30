@@ -289,3 +289,4 @@ __pycache__/
 *.xsd.cs
 
 Web.Debug.config
+appSettings.config
