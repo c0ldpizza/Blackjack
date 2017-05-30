@@ -42,8 +42,7 @@
             @Html.DisplayFor(modelItem => item.AspNetUser.FirstName)
         </td>
         <td>
-            @*<a href= "/Members/Index?ID=@item.ExcursionID">Members</a> |*@
-            @Html.ActionLink("Members", "Index", new { id = item.ExcursionID }) |
+            @Html.ActionLink("Members", "../Members/Index", new { id = item.ExcursionID }) |
             @Html.ActionLink("Edit", "Edit", new { id=item.ExcursionID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ExcursionID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ExcursionID })
