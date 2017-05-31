@@ -76,12 +76,12 @@
           </Key>
           <Property Name="Genre" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="URL" Type="varchar" MaxLength="50" />
-          <Property Name="Image" Type="image" />
-          <Property Name="IsFinal" Type="bit" Nullable="false" />
+          <Property Name="imageURL" Type="nvarchar(max)" />
+          <Property Name="IsFinal" Type="bit" />
           <Property Name="ChoiceID" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="ExcursionID" Type="int" Nullable="false" />
           <Property Name="ChoiceName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Votes" Type="int" Nullable="false" />
+          <Property Name="Votes" Type="int" />
         </EntityType>
         <EntityType Name="Excursion">
           <Key>
@@ -318,13 +318,13 @@
           </Key>
           <Property Name="Genre" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="IsFinal" Type="Boolean" Nullable="false" />
+          <Property Name="IsFinal" Type="Boolean" />
           <Property Name="ChoiceID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="ExcursionID" Type="Int32" Nullable="false" />
           <Property Name="ChoiceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Excursion" Relationship="BlackjackDBModel.FK_Choice_Excursion" FromRole="Choice" ToRole="Excursion" />
-          <Property Name="Votes" Type="Int32" Nullable="false" />
+          <Property Name="Votes" Type="Int32" />
+          <Property Name="imageURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Excursion">
           <Key>
@@ -498,12 +498,12 @@
           <EntitySetMapping Name="Choices">
             <EntityTypeMapping TypeName="BlackjackDBModel.Choice">
               <MappingFragment StoreEntitySet="Choice">
+                <ScalarProperty Name="imageURL" ColumnName="imageURL" />
                 <ScalarProperty Name="Votes" ColumnName="Votes" />
                 <ScalarProperty Name="ChoiceName" ColumnName="ChoiceName" />
                 <ScalarProperty Name="ExcursionID" ColumnName="ExcursionID" />
                 <ScalarProperty Name="ChoiceID" ColumnName="ChoiceID" />
                 <ScalarProperty Name="IsFinal" ColumnName="IsFinal" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="Genre" ColumnName="Genre" />
               </MappingFragment>

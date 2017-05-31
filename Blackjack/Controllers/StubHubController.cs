@@ -16,31 +16,48 @@ namespace Blackjack.Controllers
 {
     public class StubHubController : Controller
     {
+        private BlackjackDBEntities db = new BlackjackDBEntities();
+
         // GET: StubHub
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult StubHubSearchResult(int id, DateTime date, string city)
+        public ActionResult StubHubSearchResult(int id, DateTime startDate, DateTime endDate, string city)
         {
             int excursionID = id;
-            DateTime excursionDate = date;
+            DateTime excStartDate = startDate;
+            DateTime excEndDate = endDate;
             string excursionCity = city;
 
-            IList<Event> EventList = GetStubHubData(excursionCity, excursionDate);
+            IList<Event> EventList = GetStubHubData(excursionCity, excStartDate, excEndDate);
+
+            //Add EventList to Choice Table
+            foreach (var item in EventList)
+            {
+                db.Choices.Add(new Choice {
+                    ChoiceName = item.Name,
+                    URL = item.WebURI,
+                    imageURL = item.ImageURL,
+                    ChoiceID = item.Id,
+                    ExcursionID = excursionID,
+                    Votes = 0
+                });
+            }
 
             ViewBag.ID = id;
-            ViewBag.Date = date;
+            ViewBag.StartDate = startDate;
+            ViewBag.EndDate = endDate;
             ViewBag.City = city;
 
-            return View("StubHubSearchResult", EventList);
+            return View("StubHubSearchResult", EventList); //choice/index
         }
 
-        public static IList<Event> GetStubHubData(string city, DateTime date)
+        public static IList<Event> GetStubHubData(string city, DateTime startDate, DateTime endDate)
         {
-            string queryString = "https://api.stubhub.com/search/catalog/events/v3?status=active&start=0&rows=9&city=" + city
-                + "&eventDateLocal=" + date;
+            string queryString = "https://api.stubhub.com/search/catalog/events/v3?status=active&start=0&rows=300&city=" + city;
+                //+ "&eventDateLocal:[" + startDate + "TO" + endDate + "]";
 
             HttpWebRequest request = WebRequest.CreateHttp(queryString);
 
@@ -58,7 +75,9 @@ namespace Blackjack.Controllers
 
             string data = rd.ReadToEnd();
 
-            IList<Event> results = createEventList(data);
+            IList<Event> fullResults = createEventList(data);
+
+            IList<Event> results = Get9Events(fullResults, startDate, endDate);
 
             return results;
 
@@ -115,6 +134,26 @@ namespace Blackjack.Controllers
             JObject StubHubData = JObject.Parse(data);
 
             return StubHubData["access_token"].ToString(); //not sure if this is the correct way to return access token
+        }
+
+        public static IList<Event> Get9Events(IList<Event> fullresults, DateTime startDate, DateTime endDate)
+        {
+            IList<Event> result = new List<Event>();
+            int count = 0;
+
+            foreach (var item in fullresults)
+            {
+                if (item.EventDateLocal >= startDate && item.EventDateLocal <= endDate)
+                {
+                    result.Add(item);
+                    count++;
+
+                    if (count >= 9)
+                        break;
+                }
+            }
+            
+            return result;
         }
     }
 }

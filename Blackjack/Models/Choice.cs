@@ -16,12 +16,12 @@ namespace Blackjack.Models
     {
         public string Genre { get; set; }
         public string URL { get; set; }
-        public byte[] Image { get; set; }
-        public bool IsFinal { get; set; }
+        public Nullable<bool> IsFinal { get; set; }
         public string ChoiceID { get; set; }
         public int ExcursionID { get; set; }
         public string ChoiceName { get; set; }
-        public int Votes { get; set; }
+        public Nullable<int> Votes { get; set; }
+        public string imageURL { get; set; }
     
         public virtual Excursion Excursion { get; set; }
     }

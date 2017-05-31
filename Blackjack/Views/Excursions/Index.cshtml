@@ -48,7 +48,7 @@
             @Html.DisplayFor(modelItem => item.AspNetUser.FirstName)
         </td>
         <td>
-            @Html.ActionLink("Submit", "../StubHub/StubHubSearchResult", new { id = item.ExcursionID, date = item.Date, city = item.Location }) |
+            @Html.ActionLink("Submit", "../StubHub/StubHubSearchResult", new { id = item.ExcursionID, startDate = item.Start_Date, endDate = item.End_Date, city = item.Location }) |
             @Html.ActionLink("Members", "../Members/Index", new { id = item.ExcursionID }) |
             @Html.ActionLink("Edit", "Edit", new { id=item.ExcursionID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ExcursionID }) |
