@@ -331,7 +331,9 @@
             <PropertyRef Name="ExcursionID" />
           </Key>
           <Property Name="Location" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+
           <Property Name="Date" Type="DateTime" Precision="3" />
+
           <Property Name="Budget" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="LeadID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ExcursionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
@@ -510,12 +512,14 @@
           <EntitySetMapping Name="Excursions">
             <EntityTypeMapping TypeName="BlackjackDBModel.Excursion">
               <MappingFragment StoreEntitySet="Excursion">
+
                 <ScalarProperty Name="End_Date" ColumnName="End Date" />
                 <ScalarProperty Name="Start_Date" ColumnName="Start Date" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+
                 <ScalarProperty Name="ExcursionID" ColumnName="ExcursionID" />
                 <ScalarProperty Name="LeadID" ColumnName="LeadID" />
                 <ScalarProperty Name="Budget" ColumnName="Budget" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
               </MappingFragment>
             </EntityTypeMapping>
