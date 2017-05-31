@@ -338,8 +338,10 @@
           <NavigationProperty Name="Choices" Relationship="BlackjackDBModel.FK_Choice_Excursion" FromRole="Excursion" ToRole="Choice" />
           <NavigationProperty Name="AspNetUser" Relationship="BlackjackDBModel.FK_Excursion_AspNetUsers1" FromRole="Excursion" ToRole="AspNetUser" />
           <NavigationProperty Name="Members" Relationship="BlackjackDBModel.Excursion_Member" FromRole="Excursion" ToRole="Member" />
-          <Property Name="Start_Date" Type="DateTime" Precision="3" Nullable="false" />
-          <Property Name="End_Date" Type="DateTime" Precision="3" Nullable="false" />
+
+          <Property Name="Start_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="End_Date" Type="DateTime" Nullable="false" Precision="3" />
+
         </EntityType>
         <EntityType Name="Member">
           <Key>

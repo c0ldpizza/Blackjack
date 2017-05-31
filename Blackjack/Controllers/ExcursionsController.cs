@@ -64,7 +64,7 @@ namespace Blackjack.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Create([Bind(Include = "Location,Date,Budget,LeadID,ExcursionID")] Excursion newExcursion)
+        public ActionResult Create([Bind(Include = "Location,Budget,LeadID,ExcursionID,Start_Date,End_Date")] Excursion newExcursion)
         {
 
             if (ModelState.IsValid)
@@ -105,7 +105,7 @@ namespace Blackjack.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Location,Date,Budget,LeadID,ExcursionID")] Excursion excursion)
+        public ActionResult Edit([Bind(Include = "Location,Budget,LeadID,ExcursionID,Start_Date,End_Date")] Excursion excursion)
         {
             if (ModelState.IsValid)
             {
