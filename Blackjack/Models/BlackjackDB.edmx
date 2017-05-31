@@ -88,10 +88,12 @@
             <PropertyRef Name="ExcursionID" />
           </Key>
           <Property Name="Location" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
           <Property Name="Budget" Type="decimal" Precision="7" Scale="2" />
           <Property Name="LeadID" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ExcursionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Start Date" Type="datetime" Nullable="false" />
+          <Property Name="End Date" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Excursion-Member">
           <Key>
@@ -329,13 +331,15 @@
             <PropertyRef Name="ExcursionID" />
           </Key>
           <Property Name="Location" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="Budget" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="LeadID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ExcursionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Choices" Relationship="BlackjackDBModel.FK_Choice_Excursion" FromRole="Excursion" ToRole="Choice" />
           <NavigationProperty Name="AspNetUser" Relationship="BlackjackDBModel.FK_Excursion_AspNetUsers1" FromRole="Excursion" ToRole="AspNetUser" />
           <NavigationProperty Name="Members" Relationship="BlackjackDBModel.Excursion_Member" FromRole="Excursion" ToRole="Member" />
+          <Property Name="Start_Date" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="End_Date" Type="DateTime" Precision="3" Nullable="false" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -504,6 +508,8 @@
           <EntitySetMapping Name="Excursions">
             <EntityTypeMapping TypeName="BlackjackDBModel.Excursion">
               <MappingFragment StoreEntitySet="Excursion">
+                <ScalarProperty Name="End_Date" ColumnName="End Date" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start Date" />
                 <ScalarProperty Name="ExcursionID" ColumnName="ExcursionID" />
                 <ScalarProperty Name="LeadID" ColumnName="LeadID" />
                 <ScalarProperty Name="Budget" ColumnName="Budget" />

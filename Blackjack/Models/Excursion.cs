@@ -22,10 +22,12 @@ namespace Blackjack.Models
         }
     
         public string Location { get; set; }
-        public System.DateTime Date { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
         public Nullable<decimal> Budget { get; set; }
         public string LeadID { get; set; }
         public int ExcursionID { get; set; }
+        public System.DateTime Start_Date { get; set; }
+        public System.DateTime End_Date { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Choice> Choices { get; set; }

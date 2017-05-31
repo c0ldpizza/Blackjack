@@ -214,6 +214,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChoicesController.cs" />
     <Compile Include="Controllers\ExcursionsController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -442,6 +443,11 @@
     <Content Include="Views\Members\Edit.cshtml" />
     <Content Include="Views\Members\Index.cshtml" />
     <Content Include="Views\UserChoices\UserChoices.cshtml" />
+    <Content Include="Views\Choices\Create.cshtml" />
+    <Content Include="Views\Choices\Delete.cshtml" />
+    <Content Include="Views\Choices\Details.cshtml" />
+    <Content Include="Views\Choices\Edit.cshtml" />
+    <Content Include="Views\Choices\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
