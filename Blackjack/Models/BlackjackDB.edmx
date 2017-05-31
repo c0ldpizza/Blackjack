@@ -74,14 +74,14 @@
             <PropertyRef Name="ChoiceID" />
             <PropertyRef Name="ExcursionID" />
           </Key>
-          <Property Name="Genre" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="URL" Type="varchar" MaxLength="50" />
-          <Property Name="imageURL" Type="nvarchar(max)" />
-          <Property Name="IsFinal" Type="bit" />
           <Property Name="ChoiceID" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="ExcursionID" Type="int" Nullable="false" />
+          <Property Name="Genre" Type="varchar" MaxLength="20" />
+          <Property Name="URL" Type="nvarchar(max)" />
+          <Property Name="imageURL" Type="nvarchar(max)" />
+          <Property Name="IsFinal" Type="bit" />
           <Property Name="ChoiceName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Votes" Type="int" />
+          <Property Name="Votes" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Excursion">
           <Key>
@@ -316,14 +316,14 @@
             <PropertyRef Name="ChoiceID" />
             <PropertyRef Name="ExcursionID" />
           </Key>
-          <Property Name="Genre" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Genre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsFinal" Type="Boolean" />
           <Property Name="ChoiceID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="ExcursionID" Type="Int32" Nullable="false" />
           <Property Name="ChoiceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Excursion" Relationship="BlackjackDBModel.FK_Choice_Excursion" FromRole="Choice" ToRole="Excursion" />
-          <Property Name="Votes" Type="Int32" />
+          <Property Name="Votes" Type="Int32" Nullable="false" />
           <Property Name="imageURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Excursion">

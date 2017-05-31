@@ -45,19 +45,21 @@ namespace Blackjack.Controllers
                     Votes = 0
                 });
             }
+            db.SaveChanges();
+
+            //send emails
 
             ViewBag.ID = id;
             ViewBag.StartDate = startDate;
             ViewBag.EndDate = endDate;
             ViewBag.City = city;
 
-            return View("StubHubSearchResult", EventList); //choice/index
+            return View("StubHubSearchResult", EventList); //change to thank you page
         }
 
         public static IList<Event> GetStubHubData(string city, DateTime startDate, DateTime endDate)
         {
             string queryString = "https://api.stubhub.com/search/catalog/events/v3?status=active&start=0&rows=300&city=" + city;
-                //+ "&eventDateLocal:[" + startDate + "TO" + endDate + "]";
 
             HttpWebRequest request = WebRequest.CreateHttp(queryString);
 
@@ -75,7 +77,7 @@ namespace Blackjack.Controllers
 
             string data = rd.ReadToEnd();
 
-            IList<Event> fullResults = createEventList(data);
+            IList<Event> fullResults = parseJSONData(data);
 
             IList<Event> results = Get9Events(fullResults, startDate, endDate);
 
@@ -83,7 +85,7 @@ namespace Blackjack.Controllers
 
         }
 
-        public static IList<Event> createEventList(string data)
+        public static IList<Event> parseJSONData(string data)
         {
             JObject StubHubData = JObject.Parse(data);
 
@@ -91,16 +93,16 @@ namespace Blackjack.Controllers
             IList<JToken> eventFields = StubHubData["events"].Children().ToList();
 
             // serialize JSON results into .NET objects
-            IList<Event> searchResults = new List<Event>();
+            IList<Event> eventList = new List<Event>();
 
             //create Event objects with fields that match JTokens
             foreach (JToken result in eventFields)
             {
                 Event searchResult = JsonConvert.DeserializeObject<Event>(result.ToString());
-                searchResults.Add(searchResult);
+                eventList.Add(searchResult);
             }
 
-            return searchResults;
+            return eventList;
         }
 
         public static string GetAcccessToken()
