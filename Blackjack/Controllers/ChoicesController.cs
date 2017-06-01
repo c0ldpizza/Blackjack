@@ -135,5 +135,16 @@ namespace Blackjack.Controllers
             ViewBag.ChoiceList = ChoiceList;
             return View();
         }
+
+        public void TallyVote(string ChoiceID)
+        {
+            BlackjackDBEntities db = new BlackjackDBEntities();
+
+            Choice VotedChoice = db.Choices.FirstOrDefault(x => x.ChoiceID == ChoiceID);
+
+            VotedChoice.Votes++;
+
+            db.SaveChanges();
+        }
     }
 }
