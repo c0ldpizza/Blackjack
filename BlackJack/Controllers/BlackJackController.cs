@@ -8,7 +8,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Blackjack.Controllers
 {
-    public class HomeController : Controller
+    public class BlackJackController : Controller
     {
         public ActionResult Index()
         {
