@@ -14,9 +14,9 @@
         @foreach (var element in ViewBag.ChoiceList)
         {
             <div>
-                <input type="checkbox" id="@element.Id" name="@element.Name" value="coding">
-                <label for="@element.Name">@element.Name, @element.EventDateLocal</label>
-                <a href="https://www.stubhub.com/@element.WebURI"><img src="@element.ImageURL" width="200" height="200" /></a>
+                <input type="checkbox" id="@element.ChoiceID" name="@element.ChoiceName" value="coding">
+                <label for="@element.ChoiceName">@element.ChoiceName</label><br/>
+                <a href="https://www.stubhub.com/@element.URL"><img src="@element.imageURL" width="200" height="200" /></a>
             </div>
         }
 
