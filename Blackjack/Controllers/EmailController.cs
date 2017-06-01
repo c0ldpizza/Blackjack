@@ -19,14 +19,7 @@ namespace Blackjack.Controllers
             return View();
         }
 
-        public ActionResult SendEmail()
-        {
-            Execute(100026);
-
-            return View("MemberResponse");
-        }
-
-        static void Execute(int excursionID)//List<Member> memberList)
+        public static void SendEmail(int excursionID)//List<Member> memberList)
         {
             BlackjackDBEntities NE = new BlackjackDBEntities();
 
@@ -50,7 +43,7 @@ namespace Blackjack.Controllers
 
             msg.AddTos(recipients);
 
-            msg.SetSubject("Testing the SendGrid API for BlackJack");
+            msg.SetSubject("BlackJack Group Vote");
 
             //custom link back to website
             msg.AddContent(MimeType.Text, "Hello World plain text!");

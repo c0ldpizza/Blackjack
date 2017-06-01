@@ -45,16 +45,21 @@ namespace Blackjack.Controllers
                     Votes = 0
                 });
             }
-            db.SaveChanges();
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                //throw;
+            }
+            
 
             //send emails
+            //EmailController.SendEmail(excursionID);
 
-            ViewBag.ID = id;
-            ViewBag.StartDate = startDate;
-            ViewBag.EndDate = endDate;
-            ViewBag.City = city;
-
-            return View("StubHubSearchResult", EventList); //change to thank you page
+            return RedirectToAction("../Choices/Vote", new { excID = excursionID });
         }
 
         public static IList<Event> GetStubHubData(string city, DateTime startDate, DateTime endDate)

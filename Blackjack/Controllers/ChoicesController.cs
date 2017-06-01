@@ -128,5 +128,12 @@ namespace Blackjack.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult Vote(int excID)
+        {
+            List<Choice> ChoiceList = db.Choices.Where(x => x.ExcursionID.Equals(excID)).ToList();
+            ViewBag.ChoiceList = ChoiceList;
+            return View();
+        }
     }
 }
