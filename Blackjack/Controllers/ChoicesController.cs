@@ -133,6 +133,7 @@ namespace Blackjack.Controllers
         {
             List<Choice> ChoiceList = db.Choices.Where(x => x.ExcursionID.Equals(excID)).ToList();
             ViewBag.ChoiceList = ChoiceList;
+            ViewBag.excID = excID;
             return View();
         }
 
