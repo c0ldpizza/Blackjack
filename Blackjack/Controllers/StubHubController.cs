@@ -57,7 +57,7 @@ namespace Blackjack.Controllers
             
 
             //send emails
-            //EmailController.SendEmail(excursionID);
+            EmailController.SendEmail(excursionID);
 
             return RedirectToAction("../Choices/Vote", new { excID = excursionID });
         }

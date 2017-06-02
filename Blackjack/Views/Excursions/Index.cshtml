@@ -46,7 +46,8 @@
             @Html.ActionLink("Members", "../Members/Index", new { id = item.ExcursionID }) |
             @Html.ActionLink("Edit", "Edit", new { id=item.ExcursionID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ExcursionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ExcursionID })
+            @Html.ActionLink("Delete", "Delete", new { id=item.ExcursionID }) |
+            @Html.ActionLink("Get Results!", "../Choices/CountVotes", new { excID = item.ExcursionID })
         </td>
     </tr>
 }

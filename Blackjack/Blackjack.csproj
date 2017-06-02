@@ -443,6 +443,7 @@
     <Content Include="Views\Choices\Edit.cshtml" />
     <Content Include="Views\Choices\Index.cshtml" />
     <Content Include="Views\Choices\Vote.cshtml" />
+    <Content Include="Views\Choices\CountVotes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -146,5 +146,21 @@ namespace Blackjack.Controllers
 
             db.SaveChanges();
         }
+
+        public ActionResult CountVotes(int excID)
+        {
+            List<Choice> ChoiceList = db.Choices.Where(x => x.ExcursionID.Equals(excID)).ToList();
+
+            Choice FinalChoice = new Choice();
+            FinalChoice.Votes = 0;
+
+            foreach (Choice item in ChoiceList)
+            {
+                if (item.Votes >= FinalChoice.Votes)
+                    FinalChoice = item;
+            }
+
+            return View(FinalChoice);
+        }
     }
 }
