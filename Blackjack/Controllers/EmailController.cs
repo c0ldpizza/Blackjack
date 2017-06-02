@@ -46,17 +46,12 @@ namespace Blackjack.Controllers
             msg.SetSubject("BlackJack Group Vote");
 
             string urlLink = "http://webappjkp.azurewebsites.net/Choices/Vote?excID=" + excursionID.ToString();
-            List<Content> content = new List<Content>();
-            Content urlLinkContent = new Content("text/html", urlLink);
-
-            content.Add(urlLinkContent);
-
-            msg.AddContents(content);
+          
             //custom link back to website
-            msg.AddContent(MimeType.Text, "Hello world");
+            //msg.AddContent(MimeType.Text, "http://webappjkp.azurewebsites.net");
             msg.AddContent(MimeType.Html, "<h2>Thanks for choosing BlackJack!</h2>");
+            msg.AddContent(MimeType.Html, "<li>http://webappjkp.azurewebsites.net</li>");
 
-            
 
 
             client.SendEmailAsync(msg);
